@@ -18,6 +18,9 @@
     "emitDeclarationOnly": true,
     "allowImportingTsExtensions": true,
     "jsx": "react-jsx",
+    "moduleResolution": "node",
+    "module": "ESNext",
+    "target": "ESNext",
   },
   "include": ["src", "public"]
 }

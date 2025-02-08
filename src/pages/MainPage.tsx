@@ -1,16 +1,18 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { SeminarsList } from "#widgets/SerminarsList";
-import { getSeminarsAsync } from "#widgets/SerminarsList/api/getSeminars";
+import { SeminarsListModel } from "#widgets/SerminarsList/model";
 
 /**
  *
  */
 export const MainPage = () => {
-  console.debug(getSeminarsAsync());
+  useEffect(() => {
+    new SeminarsListModel();
+  }, []);
 
   return (
     <div className={"mainPage"}>
-      <SeminarsList />
+      <div data-js-seminars-list={""} className={"seminarsList"} />
     </div>
   );
 };

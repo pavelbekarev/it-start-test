@@ -48,7 +48,7 @@ export default async (env, { mode }) => {
           type: "asset/resource",
         },
         {
-          test: /\.(ts|tsx)$/,
+          test: /\.(js|jsx|ts|tsx)$/,
           exclude: /node_modules/,
           use: {
             loader: "babel-loader",

@@ -1,1 +1,1 @@
-export { SeminarsList } from "./ui/index.tsx";
+export { SeminarListUI } from "./ui/index.tsx";
