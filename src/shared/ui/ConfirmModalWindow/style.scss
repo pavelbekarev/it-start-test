@@ -23,6 +23,11 @@
   justify-content: center;
   align-items: center;
 
+  &__title {
+    font-size: 2rem;
+    margin-bottom: 5rem;
+  }
+
   &__controls {
     display: flex;
     flex-direction: row;
@@ -30,10 +35,26 @@
 
     &__confirm {
       width: 10rem;
+      cursor: pointer;
+      padding: 2rem 3rem;
+      border-radius: 2rem;
+      outline: none;
+      border: none;
+      color: rgb(207, 207, 207);
+      font-size: 2rem;
+      background-color: rgb(0, 145, 0);
     }
 
     &__cancel {
       width: 10rem;
+      cursor: pointer;
+      padding: 2rem 3rem;
+      border-radius: 2rem;
+      outline: none;
+      border: none;
+      color: rgb(207, 207, 207);
+      font-size: 2rem;
+      background-color: rgb(160, 0, 0);
     }
   }
 }

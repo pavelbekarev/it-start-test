@@ -4,17 +4,20 @@
   "private": true,
   "dependencies": {
     "cra-template-typescript": "1.2.0",
+    "gh-pages": "^6.3.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-scripts": "5.0.1"
   },
+  "homepage": "https://pavelbekarev.github.io/it-start-test",
   "scripts": {
     "start": "react-scripts start",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "server": "json-server --watch db.json --port 5000",
     "dev": "concurrently \"npm run server\" \"npm start\" \"webpack serve --mode development --env API_URL=api/v1 --config webpack.config.mjs\"",
-    "build": "webpack --mode production --config webpack.config.mjs"
+    "build": "webpack --mode production --config webpack.config.mjs",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [

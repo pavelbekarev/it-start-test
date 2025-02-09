@@ -8,7 +8,7 @@
   height: 100%;
   justify-content: flex-start;
   align-items: center;
-  background-color: rgb(122, 108, 108);
+  background-color: rgb(150 150 150);
   padding: 5rem 10rem;
   border-radius: 2rem;
 
@@ -22,6 +22,8 @@
       border-radius: 2rem;
       outline: none;
       border: none;
+      color: rgb(201, 201, 201);
+      font-size: 2rem;
     }
 
     &__editBtn {
