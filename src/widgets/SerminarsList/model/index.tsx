@@ -2,9 +2,11 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { getAttr } from "#shared/lib/getAttr";
 import { ConfirmModalWindow } from "#shared/ui/ConfirmModalWindow/index.ts";
+import { ItemEditModalWindow } from "#shared/ui/ItemEditModalWindow/index.ts";
 import { ModalManager } from "#shared/utils/plugins/modalManager.tsx";
-import { SeminarListUI } from "../index.ts";
 import { deleteSeminar } from "../api/deleteSeminar.ts";
+import { editSeminar } from "../api/editSeminars.ts";
+import { SeminarListUI } from "../index.ts";
 
 /**
  * Класс - Список семинаров.
@@ -25,6 +27,7 @@ export class SeminarsListModel {
       seminarsListNode: "[data-js-seminars-list]",
       editBtn: "[data-js-edit-button]",
       deleteBtn: "[data-js-delete-button]",
+      saveBtn: "[data-js-save-button]",
     };
 
     (async () => {
@@ -61,9 +64,26 @@ export class SeminarsListModel {
   /**
    *
    * TODO: Редактирование - нужно открыть модальное окно, в котором будет редактироваться полученная data
-   * @param data
+   * @param info
    */
-  private editItem(data: any) {}
+  private editItem(info: any) {
+    new ModalManager({
+      data: info,
+      componentForModalWindow: <ItemEditModalWindow info={info} />,
+      cb: (editedData) => {
+        // Теперь сюда приходят отредактированные данные
+        editSeminar(editedData);
+      },
+    });
+  }
+
+  private refreshSeminarList() {
+    (async () => {
+      this.dataForItem = await this.fetchData();
+      console.debug(this.dataForItem);
+      this.renderSeminarList();
+    })();
+  }
 
   /**
    * TODO: Открывать модальное окно подтверждения
@@ -72,7 +92,14 @@ export class SeminarsListModel {
   private deleteItem(data: any) {
     new ModalManager({
       componentForModalWindow: <ConfirmModalWindow />,
-      cb: () => deleteSeminar(data.id),
+      cb: async () => {
+        try {
+          await deleteSeminar(data.id); // Удаляем семинар через API
+          this.refreshSeminarList(); // Перерисовываем список семинаров после успешного удаления
+        } catch (error) {
+          console.error("Ошибка при удалении семинара:", error);
+        }
+      },
     });
   }
 
@@ -85,7 +112,9 @@ export class SeminarsListModel {
     editButtons.forEach((editButton) => {
       editButton.addEventListener("click", () => {
         const data = editButton.getAttribute(getAttr(this.attrs.editBtn));
+        console.debug("!!! Внимение !!!");
 
+        console.debug(data);
         this.editItem(JSON.parse(data));
       });
     });

@@ -8,6 +8,7 @@ export const ConfirmModalWindow = () => {
         <button
           data-js-confirm-button={""}
           className={"confirmModalWindow__controls__confirm"}
+          type={"submit"}
         >
           Да
         </button>

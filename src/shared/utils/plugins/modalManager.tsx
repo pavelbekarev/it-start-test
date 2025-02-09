@@ -1,3 +1,5 @@
+import { getAttr } from "#shared/lib/getAttr";
+import { editSeminar } from "#widgets/SerminarsList/api/editSeminars";
 import React from "react";
 import ReactDOM from "react-dom/client";
 
@@ -31,11 +33,12 @@ export class ModalManager {
     this.attrs = {
       confirmBtn: "[data-js-confirm-button]",
       cancelBtn: "[data-js-cancel-button]",
+      saveBtn: "[data-js-save-button]",
     };
 
     this.createModalWindowLayout();
     this.renderModalWindow();
-    console.debug(this.cb);
+
     this.bindEvents();
   }
 
@@ -52,11 +55,9 @@ export class ModalManager {
 
   private closeModalWindow() {
     const modalWindowInstanceNode = document.getElementById("modalInstance");
-    const body = document.getElementById("root");
-    console.debug("1", modalWindowInstanceNode);
-    console.debug("2", body);
+    const root = document.getElementById("root");
 
-    if (modalWindowInstanceNode) body.removeChild(modalWindowInstanceNode);
+    if (modalWindowInstanceNode) root.removeChild(modalWindowInstanceNode);
   }
 
   private renderModalWindow() {
@@ -77,17 +78,36 @@ export class ModalManager {
       if (e.target === modalWindowInstanceNode) this.closeModalWindow();
 
       const cancelBtn = (e.target as HTMLElement).closest(this.attrs.cancelBtn);
-      if (cancelBtn) this.closeModalWindow();
+      if (cancelBtn) {
+        console.debug(cancelBtn);
+        this.closeModalWindow();
+      }
 
       const confirmBtn = (e.target as HTMLElement).closest(
         this.attrs.confirmBtn
       );
+
       if (confirmBtn) {
+        console.debug(confirmBtn);
         if (this.cb) {
           (async () => {
             await this.cb();
+            this.closeModalWindow();
           })();
         }
+      }
+
+      const saveBtn = (e.target as HTMLElement).closest(this.attrs.saveBtn);
+
+      if (saveBtn) {
+        const data = JSON.parse(
+          saveBtn.getAttribute(getAttr(this.attrs.saveBtn))
+        );
+
+        if (this.cb)
+          (async () => {
+            await this.cb(data);
+          })();
       }
     });
   }
